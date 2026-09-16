@@ -30,7 +30,9 @@ import { isSupportedHerdrProtocol } from "../../server/src/bridge/protocol-compa
 
 const APP_ID = "dev.nickchernyak.roamgate.desktop";
 const smoke = !app.isPackaged && process.argv.includes("--smoke-test");
-app.setName("Roamgate Desktop");
+app.setName("Musipusi");
+// Preserve the installed app's profile and single-instance identity on rename.
+app.setPath("userData", join(app.getPath("appData"), "Roamgate Desktop"));
 app.setAppUserModelId(APP_ID);
 if (smoke) app.setPath("userData", join(app.getAppPath(), ".smoke"));
 const data = app.getPath("userData");
@@ -44,6 +46,7 @@ function log(message: string) {
 const prefsFile = join(data, "desktop.json");
 interface Preferences {
   launchAtLogin?: boolean;
+  loginExecutable?: string;
   bounds?: Rectangle;
   maximized?: boolean;
   port?: number;
@@ -127,12 +130,13 @@ function setAutostart(enabled: boolean) {
     name: APP_ID,
   });
   prefs.launchAtLogin = enabled;
+  prefs.loginExecutable = process.execPath;
   savePrefs();
   rebuildMenu();
 }
 function rebuildMenu() {
   const items: Electron.MenuItemConstructorOptions[] = [
-    { label: "Open Roamgate", click: showWindow },
+    { label: "Open Musipusi", click: showWindow },
     { type: "separator" },
     {
       label: "Launch at Windows login",
@@ -169,7 +173,7 @@ function rebuildMenu() {
   tray?.setContextMenu(Menu.buildFromTemplate(items));
   Menu.setApplicationMenu(
     Menu.buildFromTemplate([
-      { label: "Roamgate", submenu: items },
+      { label: "Musipusi", submenu: items },
       {
         label: "Edit",
         submenu: [
@@ -291,7 +295,7 @@ async function startRuntime() {
     await showStartup();
     if (!existsSync(bridgePath))
       throw new Error(
-        "The bundled bridge is missing. Reinstall Roamgate Desktop or run bun run desktop:build.",
+        "The bundled bridge is missing. Reinstall Musipusi or run bun run desktop:build.",
       );
     const preferred =
       Number.isInteger(prefs.port) && prefs.port! > 1024 && prefs.port! <= 65535
@@ -526,7 +530,7 @@ if (!app.requestSingleInstanceLock()) {
         minWidth: 800,
         minHeight: 600,
         show: false,
-        title: "Roamgate Desktop",
+        title: "Musipusi",
         backgroundColor: "#101216",
         icon: join(assets, "icon.png"),
         autoHideMenuBar: true,
@@ -649,10 +653,14 @@ if (!app.requestSingleInstanceLock()) {
           .createFromPath(join(assets, "icon.png"))
           .resize({ width: 32, height: 32 }),
       );
-      tray.setToolTip("Roamgate Desktop · Herdr");
+      tray.setToolTip("Musipusi · Herdr");
       tray.on("double-click", showWindow);
       rebuildMenu();
-      if (app.isPackaged && prefs.launchAtLogin === undefined)
+      if (
+        app.isPackaged &&
+        (prefs.launchAtLogin === undefined ||
+          (prefs.launchAtLogin && prefs.loginExecutable !== process.execPath))
+      )
         setAutostart(true);
       if (!smoke)
         globalShortcut.register("CommandOrControl+Shift+Space", () =>
@@ -667,7 +675,7 @@ if (!app.requestSingleInstanceLock()) {
     })
     .catch((error) => {
       logError(error);
-      dialog.showErrorBox("Roamgate Desktop", String(error));
+      dialog.showErrorBox("Musipusi", String(error));
       app.quit();
     });
 }

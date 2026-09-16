@@ -1,3 +1,4 @@
+import { APP_NAME } from "../brand";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { store } from "../store";
 import { UI_LOCALE } from "../uiLocale";
@@ -132,7 +133,7 @@ export function WorkspaceAutoSyncDialog({
           <code>origin/main</code> and merge it into this workspace&apos;s
           current branch. A dirty workspace is skipped, and conflicting merges
           are aborted automatically. Updates run only while this workspace is
-          open in the current Roamgate connection.
+          open in the current {APP_NAME} connection.
         </p>
 
         {loading ? (

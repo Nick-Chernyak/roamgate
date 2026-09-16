@@ -1,3 +1,4 @@
+import { APP_NAME } from "./brand";
 import type { ITheme, Terminal } from "@xterm/xterm";
 import type { ResolvedTheme } from "./appearance";
 
@@ -62,14 +63,14 @@ export const TERMINAL_THEME_PRESETS: readonly TerminalThemeDefinition[] = [
   {
     // Persisted preset IDs stay stable for existing theme selections/exports.
     id: "herdr-dark",
-    name: "Roamgate Dark",
+    name: `${APP_NAME} Dark`,
     variant: "dark",
     builtin: true,
     theme: DARK_TERMINAL_THEME,
   },
   {
     id: "herdr-light",
-    name: "Roamgate Light",
+    name: `${APP_NAME} Light`,
     variant: "light",
     builtin: true,
     theme: LIGHT_TERMINAL_THEME,
@@ -632,7 +633,7 @@ export function resolveTerminalThemeDefinition(
   if (fallback) return fallback;
   return {
     id: defaultTerminalThemeId(resolvedTheme),
-    name: resolvedTheme === "light" ? "Roamgate Light" : "Roamgate Dark",
+    name: resolvedTheme === "light" ? `${APP_NAME} Light` : `${APP_NAME} Dark`,
     variant: resolvedTheme,
     builtin: true,
     theme: terminalThemeFor(resolvedTheme),

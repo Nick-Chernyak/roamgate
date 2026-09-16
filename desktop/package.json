@@ -1,8 +1,8 @@
 {
   "name": "roamgate-desktop",
-  "version": "0.7.3-desktop.1",
+  "version": "0.7.3-desktop.2",
   "private": true,
-  "description": "Roamgate Desktop with the Herdr runtime",
+  "description": "Musipusi: a cozy desktop home for your Herdr agents",
   "author": "Nick Chernyak",
   "license": "MIT",
   "main": "dist/main.cjs"

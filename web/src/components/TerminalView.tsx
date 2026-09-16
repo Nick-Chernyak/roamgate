@@ -1,3 +1,4 @@
+import { APP_NAME } from "../brand";
 import { createPortal } from "react-dom";
 import {
   createReviewAnnotation,
@@ -971,7 +972,7 @@ export function TerminalView({
         setTerminalAttachError(
           typeof closed.reason === "string" &&
             closed.reason.includes("taken over")
-            ? "Terminal stream was taken over by another Roamgate client"
+            ? `Terminal stream was taken over by another ${APP_NAME} client`
             : "Terminal stream closed by the server",
         );
         return;

@@ -36,6 +36,6 @@ for (const name of ["main", "preload"]) {
   if (!result.success) throw new Error(result.logs.join("\n"));
 }
 await cp(
-  join(root, "web/public/roamgate-icon-512.png"),
+  join(root, "web/public/musipusi.png"),
   join(root, "desktop/assets/icon.png"),
 );

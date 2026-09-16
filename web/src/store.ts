@@ -1,6 +1,7 @@
 import { roamgateLocalStorage, roamgateSessionStorage } from "./browserStorage";
 import { withAgentActivity } from "./agentOrder";
 import { focusDesktopWindow, isDesktop } from "./desktop";
+import { APP_NAME } from "./brand";
 import {
   type EndpointAvailability,
   parseEndpointAdvertisement,
@@ -680,7 +681,7 @@ function reloadWhenUpdatedServerIsReady(
               pendingRestartVersion: null,
               notice: {
                 kind: "success",
-                message: `Roamgate ${expectedVersion} is running`,
+                message: `${APP_NAME} ${expectedVersion} is running`,
                 detail:
                   "Reloading the application to use the updated frontend.",
                 loading: true,
@@ -702,7 +703,7 @@ function reloadWhenUpdatedServerIsReady(
       notice: {
         kind: "error",
         message: "Updated server did not become ready",
-        detail: `Could not verify Roamgate ${expectedVersion}. Reload the page after checking the server process.`,
+        detail: `Could not verify ${APP_NAME} ${expectedVersion}. Reload the page after checking the server process.`,
       },
     });
   })().finally(() => {
@@ -910,7 +911,7 @@ function notifyTaskCompleted(pane: Pane, workspaces: Workspace[], tabs: Tab[]) {
   const runtimeGeneration = state.serverRuntimeGeneration;
   if (runtimeGeneration === null) return;
   const body = taskNotificationBody(pane, workspaces, tabs);
-  const title = "Roamgate task completed";
+  const title = `${APP_NAME} task completed`;
   const target = taskNotificationTarget(
     state.activeConnectionId,
     runtimeGeneration,
@@ -1384,7 +1385,7 @@ async function checkForUpdate(showErrors = false) {
         notice: showErrors
           ? {
               kind: "success",
-              message: "Roamgate is up to date",
+              message: `${APP_NAME} is up to date`,
               detail: info.latest_version
                 ? `Current version: ${info.current_version}`
                 : undefined,
@@ -2128,7 +2129,7 @@ export const store = {
       if (control.type === "pause_connection") {
         store.pauseConnection(
           control.reason ??
-            "Another Roamgate client paused this connection. Resume when you want this browser to sync again.",
+            `Another ${APP_NAME} client paused this connection. Resume when you want this browser to sync again.`,
         );
       }
     });
@@ -2995,7 +2996,7 @@ export const store = {
         ? {
             kind: "success",
             message: "Task notifications enabled",
-            detail: "Roamgate will notify you when an agent task completes.",
+            detail: `${APP_NAME} will notify you when an agent task completes.`,
             autoDismissMs: 5000,
           }
         : {
@@ -3083,7 +3084,7 @@ export const store = {
             dismissedUpdateVersion: latestVersion,
             notice: {
               kind: "info",
-              message: "Restarting the Roamgate process",
+              message: `Restarting the ${APP_NAME} process`,
               detail:
                 "The binary was updated. Waiting for the external process supervisor to start the new version.",
               loading: true,
@@ -3098,8 +3099,8 @@ export const store = {
           dismissedUpdateVersion: latestVersion,
           notice: {
             kind: "success",
-            message: `Roamgate ${installedVersion} installed`,
-            detail: "Restart the Roamgate process to use the new version.",
+            message: `${APP_NAME} ${installedVersion} installed`,
+            detail: `Restart the ${APP_NAME} process to use the new version.`,
           },
         });
         return;
@@ -3110,7 +3111,7 @@ export const store = {
         dismissedUpdateVersion: latestVersion,
         notice: {
           kind: "success",
-          message: "Roamgate is already up to date",
+          message: `${APP_NAME} is already up to date`,
         },
       });
     } catch (e) {

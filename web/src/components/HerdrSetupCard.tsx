@@ -1,3 +1,4 @@
+import { APP_NAME } from "../brand";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import {
   ArrowRight,
@@ -152,9 +153,9 @@ export function HerdrSetupCard({
         <h2 id={titleId}>{title}</h2>
         <p>
           {busy
-            ? "Keep this page open. Roamgate will reconnect when Herdr is ready."
+            ? `Keep this page open. ${APP_NAME} will reconnect when Herdr is ready.`
             : confirming
-              ? "This changes the machine running Roamgate, not your browser or a remote SSH host."
+              ? `This changes the machine running ${APP_NAME}, not your browser or a remote SSH host.`
               : missing
                 ? "Herdr runs your terminals and agents. Set it up once, then manage your workspace from here."
                 : "Herdr is installed but isn't running. Start it in the background to reconnect your terminals and agents."}
@@ -202,7 +203,7 @@ export function HerdrSetupCard({
             <Server size={18} aria-hidden="true" />
             <div>
               <strong>Run as a background service</strong>
-              <span>Starts at login, independently of Roamgate</span>
+              <span>Starts at login, independently of {APP_NAME}</span>
             </div>
           </li>
         </ul>
@@ -255,7 +256,7 @@ export function HerdrSetupCard({
         )}
         <p className="herdr-setup-footnote">
           {confirming
-            ? "A user service will be registered on the Roamgate host."
+            ? `A user service will be registered on the ${APP_NAME} host.`
             : "Review the details before making any changes."}
         </p>
       </div>

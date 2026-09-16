@@ -1,6 +1,6 @@
 {
   "appId": "dev.nickchernyak.roamgate.desktop",
-  "productName": "Roamgate Desktop",
+  "productName": "Musipusi",
   "directories": { "output": "../dist/desktop" },
   "files": ["dist/**", "assets/**", "package.json"],
   "extraResources": [
@@ -25,6 +25,6 @@
     "createDesktopShortcut": true,
     "deleteAppDataOnUninstall": false
   },
-  "artifactName": "Roamgate-Desktop-${version}-${arch}-Setup.${ext}",
+  "artifactName": "Musipusi-${version}-${arch}-Setup.${ext}",
   "publish": null
 }

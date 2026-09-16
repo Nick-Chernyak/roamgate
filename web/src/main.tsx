@@ -1,4 +1,6 @@
 import { initializeLayoutPreferences } from "./layoutPreferences";
+import { APP_NAME } from "./brand";
+import { isDesktop } from "./desktop";
 import { initializeShortcutPreferences } from "./shortcutPreferences";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -38,6 +40,18 @@ class ErrorBoundary extends React.Component<
 }
 
 initializeLayoutPreferences();
+if (isDesktop()) {
+  document.title = APP_NAME;
+  document
+    .querySelectorAll<HTMLLinkElement>(
+      'link[rel="icon"], link[rel="apple-touch-icon"]',
+    )
+    .forEach((icon) => {
+      icon.href = "/musipusi.png";
+      icon.type = "image/png";
+      icon.removeAttribute("sizes");
+    });
+}
 initializeShortcutPreferences();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

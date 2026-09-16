@@ -6,6 +6,10 @@ MIT license.
 
 ## Roamgate artwork
 
+The Musipusi desktop fork uses its own generated pixel bunny in
+`web/public/musipusi.png`. The built-in imagegen prompt is preserved in
+`desktop/assets/musipusi-prompt.txt`.
+
 The Roamgate bird, wordmark, icons, and social images were supplied by the
 project owner. They are not Herdr's official logo. The small application marks
 are resized exports of that artwork, displayed on a warm-white background.

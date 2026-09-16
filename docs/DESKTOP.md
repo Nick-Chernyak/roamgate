@@ -1,8 +1,8 @@
-# Roamgate Desktop
+# Musipusi
 
 The Windows x64 desktop application keeps the existing Roamgate interface and
 uses Herdr as its terminal and agent runtime. Install the per-user NSIS installer
-and open Roamgate Desktop. A working compatible Herdr server is reused. If it is
+and open Musipusi. A working compatible Herdr server is reused. If it is
 stopped, the desktop starts it through Roamgate's managed user service; if it is
 missing, the verified Herdr release is downloaded with pinned checksum checks.
 An incompatible running server is never replaced or downgraded.
@@ -26,6 +26,11 @@ An incompatible running server is never replaced or downgraded.
 
 The first missing-runtime setup requires internet access. A compatible installed
 runtime and an existing workspace work locally without a cloud account.
+
+Musipusi is the desktop name of this Roamgate fork. The pixel bunny is its app,
+tray and interface emblem. Upgrades retain the previous app ID and
+`Roamgate Desktop` data directory so existing preferences and sessions survive;
+the login entry is repaired when the executable name changes.
 
 ## Build
 

@@ -1,6 +1,7 @@
 import { lazyWithReload } from "../lazyWithReload";
 import type { ReactNode } from "react";
 import { Suspense, useEffect, useRef, useState } from "react";
+import { APP_NAME } from "../brand";
 import {
   ALargeSmall,
   Bell,
@@ -259,7 +260,7 @@ export function ConfigMenu({
           >
             <div className="config-summary">
               <div>
-                <strong>Roamgate</strong>
+                <strong>{APP_NAME}</strong>
                 <span>Version {APP_VERSION}</span>
               </div>
               <span
