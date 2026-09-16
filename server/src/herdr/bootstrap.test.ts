@@ -87,7 +87,12 @@ describe("findHerdrBinary", () => {
     mkdirSync(join(managed, ".."), { recursive: true });
     writeFileSync(managed, "managed");
     expect(
-      findHerdrBinary({ platform: "win32", homeDir: managedHome, pathEnv: "" }),
+      findHerdrBinary({
+        platform: "win32",
+        homeDir: managedHome,
+        appDataDir: join(managedHome, "AppData", "Roaming"),
+        pathEnv: "",
+      }),
     ).toBe(managed);
   });
 });
@@ -123,6 +128,22 @@ describe("detectHerdrSetup", () => {
 });
 
 describe("setupHerdr", () => {
+  test("leaves an incompatible running server untouched", async () => {
+    let changed = false;
+    await expect(
+      setupHerdr({
+        ping: async () => ({ version: "future", protocol: 99 }),
+        installService: () => {
+          changed = true;
+        },
+        installRelease: async () => {
+          changed = true;
+          return { binaryPath: "/unused" };
+        },
+      }),
+    ).rejects.toThrow("not supported");
+    expect(changed).toBe(false);
+  });
   test("does nothing when Herdr is already running", async () => {
     let installs = 0;
     const result = await setupHerdr({

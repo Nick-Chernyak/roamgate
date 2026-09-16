@@ -1,0 +1,9 @@
+{
+  "name": "roamgate-desktop",
+  "version": "0.7.3-desktop.1",
+  "private": true,
+  "description": "Roamgate Desktop with the Herdr runtime",
+  "author": "Nick Chernyak",
+  "license": "MIT",
+  "main": "dist/main.cjs"
+}

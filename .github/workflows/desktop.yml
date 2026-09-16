@@ -1,0 +1,45 @@
+name: Desktop Windows
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "desktop/**"
+      - "web/**"
+      - "server/**"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/desktop.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: "1.4.1"
+          no-cache: true
+      - run: bun install --frozen-lockfile
+      - run: node node_modules/electron/install.js
+      - run: bun run desktop:typecheck
+      - run: bun run desktop:test
+      - run: bun run desktop:package
+      - name: Installer checksum
+        shell: pwsh
+        run: |
+          Get-ChildItem dist/desktop/*-Setup.exe | ForEach-Object {
+            $digest = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$digest  $($_.Name)" | Set-Content -LiteralPath "$($_.FullName).sha256" -Encoding ascii
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: roamgate-desktop-windows-x64
+          path: |
+            dist/desktop/*-Setup.exe
+            dist/desktop/*.sha256

@@ -16,6 +16,8 @@ export default tseslint.config(
       "web/dist/**",
       "web/node_modules/**",
       "server/node_modules/**",
+      "desktop/dist/**",
+      "desktop/.smoke/**",
     ],
   },
   js.configs.recommended,
@@ -53,7 +55,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["site/**/*.js"],
+    files: ["site/**/*.js", "desktop/assets/*.js"],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -62,7 +64,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["server/src/**/*.ts", "scripts/**/*.ts"],
+    files: ["server/src/**/*.ts", "scripts/**/*.ts", "desktop/**/*.ts"],
     languageOptions: {
       globals: {
         ...globals.bunBuiltin,

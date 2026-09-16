@@ -1,0 +1,30 @@
+{
+  "appId": "dev.nickchernyak.roamgate.desktop",
+  "productName": "Roamgate Desktop",
+  "directories": { "output": "../dist/desktop" },
+  "files": ["dist/**", "assets/**", "package.json"],
+  "extraResources": [
+    { "from": "../server/roamgate-desktop.exe", "to": "bridge/roamgate.exe" },
+    { "from": "../LICENSE", "to": "licenses/Roamgate.txt" },
+    {
+      "from": "../THIRD_PARTY_NOTICES.md",
+      "to": "licenses/THIRD_PARTY_NOTICES.md"
+    },
+    { "from": "../LICENSES", "to": "licenses/third-party" }
+  ],
+  "win": {
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
+    "icon": "assets/icon.png",
+    "signAndEditExecutable": true
+  },
+  "nsis": {
+    "include": "installer.nsh",
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "deleteAppDataOnUninstall": false
+  },
+  "artifactName": "Roamgate-Desktop-${version}-${arch}-Setup.${ext}",
+  "publish": null
+}

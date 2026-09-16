@@ -1,5 +1,9 @@
 # Roamgate
 
+This fork also provides **Roamgate Desktop for Windows**, with Electron, tray
+controls, login startup and automatic Herdr setup. See [desktop installation and
+development](docs/DESKTOP.md). The original web client remains available.
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./site/assets/roamgate-lockup-on-charcoal.png" />

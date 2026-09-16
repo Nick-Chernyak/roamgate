@@ -133,6 +133,7 @@ export async function setupHerdr(
 
   const state = await detectHerdrSetup({ ...deps, ping });
   if (state.state === "running") {
+    assertSupportedHerdrProtocol(state.protocol);
     return {
       outcome: "already-running",
       version: state.version,

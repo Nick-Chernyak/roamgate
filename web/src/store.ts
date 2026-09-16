@@ -1,5 +1,6 @@
 import { roamgateLocalStorage, roamgateSessionStorage } from "./browserStorage";
 import { withAgentActivity } from "./agentOrder";
+import { focusDesktopWindow, isDesktop } from "./desktop";
 import {
   type EndpointAvailability,
   parseEndpointAdvertisement,
@@ -236,7 +237,7 @@ export function bindTaskNotificationActivation(
       ),
     );
   },
-  focusWindow: () => void = () => window.focus(),
+  focusWindow: () => void = focusDesktopWindow,
 ) {
   notification.onclick = () => {
     try {
@@ -261,10 +262,9 @@ function notificationPermission(): NotificationPermission | "unsupported" {
 }
 
 function storedTaskNotificationsEnabled() {
-  return (
-    typeof localStorage !== "undefined" &&
-    roamgateLocalStorage.getItem(TASK_NOTIFICATIONS_KEY) === "true"
-  );
+  if (typeof localStorage === "undefined") return false;
+  const saved = roamgateLocalStorage.getItem(TASK_NOTIFICATIONS_KEY);
+  return saved === "true" || (saved === null && isDesktop());
 }
 
 export function automaticUpdateChecksEnabledFromStorage(
@@ -965,7 +965,8 @@ function notifyCompletedTasks(
   const activePaneId = activePaneIdForTaskNotifications(state);
   for (const pane of completed) {
     if (!leaseIsCurrent(lease)) return;
-    if (pane.pane_id === activePaneId) continue;
+    if (pane.pane_id === activePaneId && (!isDesktop() || document.hasFocus()))
+      continue;
     notifyTaskCompleted(pane, workspaces, tabs);
   }
 }

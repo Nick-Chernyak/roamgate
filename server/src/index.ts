@@ -1,4 +1,5 @@
 import type { ServerWebSocket } from "bun";
+import { createDesktopGuard } from "./http/desktop";
 import { rmSync } from "node:fs";
 import packageJson from "../../package.json";
 import type { SshTunnelConfig } from "./bridge/ssh-tunnel";
@@ -1215,13 +1216,21 @@ async function handleConnectionHttpRequest(
   }
 }
 
+const desktopToken = process.env.ROAMGATE_DESKTOP_TOKEN;
+const desktopGuard = createDesktopGuard(desktopToken);
+
 function main() {
+  if (desktopToken && config.host !== "127.0.0.1") {
+    throw new Error("Desktop bridge must bind to 127.0.0.1");
+  }
   const server = bindListenerBeforeConnectionStart({
     bindListener: () =>
       Bun.serve({
         port: config.port,
         hostname: config.host,
         async fetch(req, server) {
+          const desktopDenied = desktopGuard(req, server.port ?? config.port);
+          if (desktopDenied) return desktopDenied;
           const requestPathname = rawRequestPathname(req.url);
           let url: URL;
           try {
@@ -1269,10 +1278,24 @@ function main() {
             });
           }
           if (url.pathname === "/api/update/check" && req.method === "GET") {
+            if (desktopToken)
+              return Response.json({
+                current_version: APP_VERSION,
+                latest_version: APP_VERSION,
+                update_available: false,
+                can_auto_update: false,
+                reason:
+                  "Desktop updates are installed with the desktop installer.",
+              });
             server.timeout(req, UPDATE_HTTP_IDLE_TIMEOUT_SECONDS);
             return handleUpdateCheck(req);
           }
           if (url.pathname === "/api/update/install" && req.method === "POST") {
+            if (desktopToken)
+              return Response.json(
+                { error: "Use the desktop installer to update." },
+                { status: 403 },
+              );
             // Binary download and verification can exceed Bun's default ten-second
             // request timeout. Keep the larger budget scoped to update requests.
             server.timeout(req, UPDATE_HTTP_IDLE_TIMEOUT_SECONDS);
@@ -1280,6 +1303,14 @@ function main() {
           }
           if (url.pathname === "/api/herdr/status" && req.method === "GET") {
             return handleHerdrStatus();
+          }
+          if (
+            desktopToken &&
+            url.pathname === "/api/desktop/shutdown" &&
+            req.method === "POST"
+          ) {
+            scheduleManagedShutdown();
+            return Response.json({ ok: true });
           }
           if (url.pathname === "/api/herdr/setup" && req.method === "POST") {
             // Herdr download plus service start shares the update budget.

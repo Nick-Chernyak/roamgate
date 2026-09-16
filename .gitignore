@@ -23,3 +23,6 @@ server/roamgate
 server/roamgate.exe
 server/roamgate-*
 server/*.bun-build
+desktop/dist
+desktop/.smoke
+desktop/assets/icon.png
