@@ -437,6 +437,8 @@ async function smokeCheck() {
       "({text:document.body.innerText.slice(0,3000), mounted:document.getElementById('root')?.childElementCount>0, node:typeof require, desktop:typeof window.roamgateDesktop?.showWindow})",
     );
     const herdr = await (await request("/api/herdr/status")).json();
+    const { checkAppearance } = await import("./appearanceSmoke");
+    const appearance = await checkAppearance(window!.webContents);
     const oldPid = child?.pid;
     child?.kill();
     const reconnectDeadline = Date.now() + 30_000;
@@ -476,6 +478,7 @@ async function smokeCheck() {
       closeToTray,
       recovered,
       ui,
+      appearance,
       herdr,
     };
     writeFileSync(join(data, "result.json"), JSON.stringify(report, null, 2));

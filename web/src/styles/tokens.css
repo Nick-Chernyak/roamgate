@@ -140,6 +140,64 @@
   --overlay-scrollbar-thumb-hover: rgba(46, 74, 148, 0.76);
 }
 
+/* Palette adapted from Jason Hulbert's Trash Panda Theme (2026).
+   Source and attribution: docs/DESKTOP.md. Accent preferences remain available. */
+:root[data-palette="trash-panda-2026"] {
+  --bg: #151719;
+  --topbar: #151719;
+  --panel: #151719;
+  --panel-2: #2c3135;
+  --input-bg: #0d0e0f;
+  --terminal-bg: #0d0e0f;
+  --terminal-fg: #e2e2e2;
+  --border: #2c3135;
+  --border-soft: #2c313580;
+  --text: #b8babd;
+  --text-strong: #e2e2e2;
+  --text-code: #e2e2e2;
+  --muted: #727a7f;
+  --accent: #406bf4;
+  --accent-2: #3050b7;
+  --accent-soft: #101b3d;
+  --accent-hover: #18285c;
+  --accent-active: #3050b7;
+  --green: #42ba90;
+  --red: #e8626f;
+  --yellow: #c8b089;
+  --blue: #2c99db;
+  --danger-border: #743138;
+  --danger-text: #e8626f;
+  --danger-soft: #3a181c;
+  --success-soft: #102f24;
+  --warning-soft: #493e2c;
+  --success-text: #81bb7d;
+  --warning-text: #c8b089;
+  --diff-bg: #0d0e0f;
+  --diff-line-bg: #151719;
+  --diff-text: #e2e2e2;
+  --diff-hunk-bg: #0b2637;
+  --diff-hunk-text: #50cae5;
+  --diff-add-bg: #102f24;
+  --diff-add-inline-bg: #215d48;
+  --diff-add-inline-text: #e2e2e2;
+  --diff-del-bg: #3a181c;
+  --diff-del-inline-bg: #743138;
+  --diff-del-inline-text: #e2e2e2;
+  --syntax-comment: #727a7f;
+  --syntax-keyword: #a07cf1;
+  --syntax-string: #c8b089;
+  --syntax-number: #d48d9f;
+  --syntax-function: #81bb7d;
+  --syntax-property: #50cae5;
+  --syntax-variable: #e2e2e2;
+  --syntax-type: #81bb7d;
+  --syntax-operator: #a07cf1;
+  --syntax-punctuation: #b8babd;
+  --syntax-meta: #727a7f;
+  --overlay-scrollbar-thumb: #5f656a;
+  --overlay-scrollbar-thumb-hover: #727a7f;
+}
+
 :root[data-accent="teal"] {
   --accent: #2dd4bf;
   --accent-2: #14b8a6;

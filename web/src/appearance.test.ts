@@ -6,6 +6,7 @@ import {
   normalizeUiScale,
   normalizeZenMode,
   resolveSystemTheme,
+  resolveThemePreference,
   serializeZenMode,
   UI_SCALE_DEFAULT,
   UI_SCALE_MAX,
@@ -29,9 +30,20 @@ describe("appearance preferences", () => {
   });
 
   test("accepts supported theme preferences, including system", () => {
+    expect(normalizeThemePreference("trash-panda-2026")).toBe(
+      "trash-panda-2026",
+    );
     expect(normalizeThemePreference("dark")).toBe("dark");
     expect(normalizeThemePreference("light")).toBe("light");
     expect(normalizeThemePreference("system")).toBe("system");
+  });
+
+  test("keeps dark palettes dark while system mode follows the OS", () => {
+    expect(resolveThemePreference("trash-panda-2026", "light")).toBe("dark");
+    expect(resolveThemePreference("system", "light")).toBe("light");
+    expect(resolveThemePreference("system", "dark")).toBe("dark");
+    expect(resolveThemePreference("light", "dark")).toBe("light");
+    expect(resolveThemePreference("dark", "light")).toBe("dark");
   });
 
   test("falls back to the dark theme for missing or unknown values", () => {

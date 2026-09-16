@@ -60,6 +60,7 @@ import {
   UI_SCALE_DEFAULT,
   type ResolvedTheme,
   resolveSystemTheme,
+  resolveThemePreference,
   SYSTEM_THEME_QUERY,
   type ThemePreference,
 } from "./appearance";
@@ -1126,7 +1127,7 @@ export default function App() {
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() =>
     loadSystemTheme(),
   );
-  const resolvedTheme: ResolvedTheme = theme === "system" ? systemTheme : theme;
+  const resolvedTheme = resolveThemePreference(theme, systemTheme);
   const [accentColor, setAccentColor] = useState<AccentColor>(() =>
     loadAccentColor(),
   );
@@ -2893,6 +2894,7 @@ export default function App() {
   }, []);
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = resolvedTheme;
+    document.documentElement.dataset.palette = theme;
     document.documentElement.style.colorScheme = resolvedTheme;
     roamgateLocalStorage.setItem(THEME_KEY, theme);
     document.documentElement.dataset.accent = accentColor;
@@ -3187,7 +3189,20 @@ export default function App() {
               mobileTerminalSideShortcuts={mobileTerminalSideShortcuts}
               terminalThemeSelection={terminalThemeSelection}
               customTerminalThemes={customTerminalThemes}
-              onThemeChange={setTheme}
+              onThemeChange={(next) => {
+                setTheme(next);
+                setTerminalThemeSelection((previous) => ({
+                  ...previous,
+                  dark:
+                    next === "trash-panda-2026" &&
+                    previous.dark === "herdr-dark"
+                      ? "trash-panda-2026"
+                      : next !== "trash-panda-2026" &&
+                          previous.dark === "trash-panda-2026"
+                        ? "herdr-dark"
+                        : previous.dark,
+                }));
+              }}
               onAccentColorChange={setAccentColor}
               uiScale={uiScale}
               onUiScaleChange={setUiScale}

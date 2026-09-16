@@ -42,6 +42,7 @@
               ? "light"
               : "dark";
         document.documentElement.dataset.theme = resolvedTheme;
+        document.documentElement.dataset.palette = storedTheme || "dark";
         document.documentElement.style.colorScheme = resolvedTheme;
         // Apply the persisted interface scale too so the first paint matches
         // the Text size preference.

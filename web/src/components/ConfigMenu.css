@@ -4,6 +4,10 @@
   margin-left: auto;
 }
 
+.config-theme-select {
+  max-width: 185px;
+}
+
 .config-dropdown {
   position: absolute;
   z-index: 140;

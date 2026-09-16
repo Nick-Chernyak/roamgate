@@ -61,6 +61,37 @@ const NO_RULER_BORDER = "rgba(0,0,0,0)";
 
 export const TERMINAL_THEME_PRESETS: readonly TerminalThemeDefinition[] = [
   {
+    id: "trash-panda-2026",
+    name: "Trash Panda 2026",
+    variant: "dark",
+    builtin: true,
+    theme: {
+      background: "#0d0e0f",
+      foreground: "#e2e2e2",
+      cursor: "#406bf4",
+      cursorAccent: "#0d0e0f",
+      selectionBackground: "#18285c",
+      selectionForeground: "#ffffff",
+      overviewRulerBorder: NO_RULER_BORDER,
+      black: "#151719",
+      red: "#e8626f",
+      green: "#42ba90",
+      yellow: "#c8b089",
+      blue: "#2c99db",
+      magenta: "#a07cf1",
+      cyan: "#50cae5",
+      white: "#b8babd",
+      brightBlack: "#727a7f",
+      brightRed: "#e8886d",
+      brightGreen: "#81bb7d",
+      brightYellow: "#c8b089",
+      brightBlue: "#406bf4",
+      brightMagenta: "#d48d9f",
+      brightCyan: "#50cae5",
+      brightWhite: "#ffffff",
+    },
+  },
+  {
     // Persisted preset IDs stay stable for existing theme selections/exports.
     id: "herdr-dark",
     name: `${APP_NAME} Dark`,

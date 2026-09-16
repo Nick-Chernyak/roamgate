@@ -30,7 +30,7 @@ function firstPaint(values: Record<string, string>, systemLight = false) {
 
 test("index first paint uses defaults when no appearance preferences exist", () => {
   expect(firstPaint({})).toEqual({
-    dataset: { theme: "dark" },
+    dataset: { theme: "dark", palette: "dark" },
     style: { colorScheme: "dark", zoom: "" },
   });
 });
@@ -38,7 +38,7 @@ test("index first paint uses defaults when no appearance preferences exist", () 
 test("index first paint reads legacy appearance preferences without changing them", () => {
   const values = { theme: "light", uiScale: "125" };
   expect(firstPaint(values)).toEqual({
-    dataset: { theme: "light" },
+    dataset: { theme: "light", palette: "light" },
     style: { colorScheme: "light", zoom: "1.25" },
   });
 });
@@ -47,7 +47,7 @@ test("index first paint uses Roamgate appearance preferences on fresh installs",
   expect(
     firstPaint({ "roamgate:theme": "light", "roamgate:uiScale": "120" }),
   ).toEqual({
-    dataset: { theme: "light" },
+    dataset: { theme: "light", palette: "light" },
     style: { colorScheme: "light", zoom: "1.2" },
   });
 });
@@ -61,7 +61,7 @@ test("index first paint prefers new appearance values over differing legacy valu
       "roamgate:uiScale": "90",
     }),
   ).toEqual({
-    dataset: { theme: "dark" },
+    dataset: { theme: "dark", palette: "dark" },
     style: { colorScheme: "dark", zoom: "0.9" },
   });
 });
@@ -75,7 +75,7 @@ test("index first paint does not fall back from explicitly empty new values", ()
       "roamgate:uiScale": "",
     }),
   ).toEqual({
-    dataset: { theme: "dark" },
+    dataset: { theme: "dark", palette: "dark" },
     style: { colorScheme: "dark", zoom: "0.8" },
   });
 });
@@ -92,7 +92,14 @@ test("index first paint resolves the new system theme and default scale", () => 
       true,
     ),
   ).toEqual({
-    dataset: { theme: "light" },
+    dataset: { theme: "light", palette: "system" },
     style: { colorScheme: "light", zoom: "" },
+  });
+});
+
+test("Trash Panda is dark on first paint even when the OS is light", () => {
+  expect(firstPaint({ "roamgate:theme": "trash-panda-2026" }, true)).toEqual({
+    dataset: { theme: "dark", palette: "trash-panda-2026" },
+    style: { colorScheme: "dark", zoom: "" },
   });
 });

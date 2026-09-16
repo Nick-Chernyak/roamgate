@@ -20,6 +20,7 @@ export const THEME_OPTIONS = [
   { value: "dark", label: "Dark" },
   { value: "light", label: "Light" },
   { value: "system", label: "System" },
+  { value: "trash-panda-2026", label: "Trash Panda 2026" },
 ] as const;
 
 export type ThemePreference = (typeof THEME_OPTIONS)[number]["value"];
@@ -28,9 +29,20 @@ export type ResolvedTheme = "dark" | "light";
 export function normalizeThemePreference(
   value: string | null,
 ): ThemePreference {
-  return value === "light" || value === "dark" || value === "system"
-    ? value
+  return THEME_OPTIONS.some((option) => option.value === value)
+    ? (value as ThemePreference)
     : "dark";
+}
+
+export function resolveThemePreference(
+  theme: ThemePreference,
+  systemTheme: ResolvedTheme,
+): ResolvedTheme {
+  return theme === "system"
+    ? systemTheme
+    : theme === "light"
+      ? "light"
+      : "dark";
 }
 
 export function resolveSystemTheme(

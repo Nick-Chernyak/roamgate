@@ -28,6 +28,8 @@ import packageJson from "../../package.json";
 import type { Theme } from "../App";
 import {
   ACCENT_OPTIONS,
+  THEME_OPTIONS,
+  normalizeThemePreference,
   type AccentColor,
   clampUiScale,
   UI_SCALE_DEFAULT,
@@ -53,6 +55,7 @@ import {
 import { AutoSyncRepositoriesDialog } from "./AutoSyncRepositoriesDialog";
 import { HerdrSetupCard } from "./HerdrSetupCard";
 import { MobileTerminalShortcutsDialog } from "./MobileTerminalShortcutsDialog";
+import { ThemedSelect } from "./ThemedSelect";
 import "./ConfigMenu.css";
 
 const ShortcutLookupDialog = lazyWithReload("keyboard-shortcuts", () =>
@@ -290,35 +293,16 @@ export function ConfigMenu({
                   <strong>Theme</strong>
                   <span>Application appearance</span>
                 </div>
-                <div className="config-theme-control" aria-label="Theme">
-                  <button
-                    type="button"
-                    aria-label="Use light theme"
-                    aria-pressed={theme === "light"}
-                    className={theme === "light" ? "is-active" : ""}
-                    onClick={() => onThemeChange("light")}
-                  >
-                    <Sun size={14} />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Use dark theme"
-                    aria-pressed={theme === "dark"}
-                    className={theme === "dark" ? "is-active" : ""}
-                    onClick={() => onThemeChange("dark")}
-                  >
-                    <Moon size={14} />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Use system theme"
-                    aria-pressed={theme === "system"}
-                    className={theme === "system" ? "is-active" : ""}
-                    onClick={() => onThemeChange("system")}
-                  >
-                    <SunMoon size={14} />
-                  </button>
-                </div>
+                <ThemedSelect
+                  aria-label="Application theme"
+                  className="config-theme-select"
+                  value={theme}
+                  options={[...THEME_OPTIONS]}
+                  onChange={(value) =>
+                    onThemeChange(normalizeThemePreference(value))
+                  }
+                  align="end"
+                />
               </div>
               <div className="config-preference-row">
                 <span className="config-item-icon">

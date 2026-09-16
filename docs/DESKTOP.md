@@ -56,6 +56,20 @@ release commands are independent. Desktop binaries are unsigned unless a signing
 identity is provided to electron-builder; Windows may show an unrecognized
 publisher prompt. No signing certificate is included in the repository.
 
+## Appearance
+
+Open **Menu > Appearance > Theme** to choose Dark, Light, System, or
+**Trash Panda 2026**. Selection is saved locally and applied before the next
+window paints. Accent colors can be customized independently; use Default for
+the original palette. The default terminal palette follows Trash Panda when
+switching into it, and returns to the application palette when switching out.
+An explicitly chosen alternative terminal palette is preserved.
+
+Trash Panda 2026 adapts the dark palette from
+[Jason Hulbert's Trash Panda Theme](https://github.com/jasonhulbert/jetbrains-trash-panda-theme/blob/master/src/main/resources/META-INF/trash-panda-theme-2026.theme.json),
+including panels, inputs, syntax colors, diff colors and a terminal preset.
+Programs inside terminals still control their explicit RGB colors.
+
 ## Runtime and security
 
 Electron owns a dedicated loopback bridge. A fresh random 256-bit token is passed
